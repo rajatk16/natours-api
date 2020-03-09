@@ -3,14 +3,20 @@
   "version": "1.0.0",
   "main": "server.js",
   "license": "MIT",
+  "engines": {
+    "node": ">=8.3.0"
+  },
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "morgan": "^1.9.1"
+    "mongoose": "^5.9.3",
+    "morgan": "^1.9.1",
+    "slugify": "^1.4.0",
+    "validator": "^12.2.0"
   },
   "scripts": {
     "dev": "nodemon",
-    "start": "set NODE_ENV=production && nodemon server.js"
+    "start": "NODE_ENV=production && nodemon server.js"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
