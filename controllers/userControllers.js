@@ -16,12 +16,10 @@ exports.getUsers = (req, res, next) => {
 exports.createUser = (req, res, next) => {
   const newId = users[users.length - 1].id + 1;
 
-  const newUser = Object.assign(
-    {
-      id: newId
-    },
-    req.body
-  );
+  const newUser = {
+    id: newId,
+    ...req.body
+  };
 
   users.push(newUser);
   fs.writeFile(
@@ -39,9 +37,9 @@ exports.createUser = (req, res, next) => {
 };
 
 exports.getUser = (req, res, next) => {
-  const user = users.find(user => user._id === req.params.id * 1);
+  const foundUser = users.find(user => user._id === req.params.id * 1);
 
-  if (!user) {
+  if (!foundUser) {
     return res.status(404).json({
       status: 'error',
       message: 'User not found'
@@ -51,7 +49,7 @@ exports.getUser = (req, res, next) => {
   res.status(200).json({
     status: 'Success',
     data: {
-      user
+      foundUser
     }
   });
 };
