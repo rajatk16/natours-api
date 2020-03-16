@@ -1,49 +1,23 @@
-const fs = require('fs');
+const User = require('../models/User');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/AppError');
 
-const users = JSON.parse(
-  fs.readFileSync(`${__dirname}/../dev-data/data/users.json`)
-);
+exports.getUsers = catchAsync(async (req, res, next) => {
+  const users = await User.find();
 
-exports.getUsers = (req, res, next) => {
   res.status(200).json({
-    status: 'Success',
+    message: 'success',
     data: {
       users
     }
   });
-};
+});
 
-exports.createUser = (req, res, next) => {
-  const newId = users[users.length - 1].id + 1;
-
-  const newUser = {
-    id: newId,
-    ...req.body
-  };
-
-  users.push(newUser);
-  fs.writeFile(
-    `${__dirname}/dev-data/data/users.json`,
-    JSON.stringify(users),
-    err => {
-      res.status(201).json({
-        status: 'Success',
-        data: {
-          tour: newUser
-        }
-      });
-    }
-  );
-};
-
-exports.getUser = (req, res, next) => {
-  const foundUser = users.find(user => user._id === req.params.id * 1);
+exports.getUser = catchAsync(async (req, res, next) => {
+  const foundUser = await User.findById(req.params.id);
 
   if (!foundUser) {
-    return res.status(404).json({
-      status: 'error',
-      message: 'User not found'
-    });
+    return next(new AppError('User not found', 404));
   }
 
   res.status(200).json({
@@ -52,18 +26,4 @@ exports.getUser = (req, res, next) => {
       foundUser
     }
   });
-};
-
-exports.updateUser = (req, res, next) => {
-  return res.status(500).json({
-    status: 'TBD',
-    message: 'Route not created yet'
-  });
-};
-
-exports.deleteUser = (req, res, next) => {
-  return res.status(500).json({
-    status: 'TBD',
-    message: 'Route not created yet'
-  });
-};
+});
