@@ -18,8 +18,8 @@
     "validator": "^12.2.0"
   },
   "scripts": {
-    "dev": "nodemon",
-    "start": "NODE_ENV=production && nodemon server.js",
+    "dev": "nodemon -r dotenv/config",
+    "start": "node server.js",
     "debug": "ndb server.js"
   },
   "devDependencies": {

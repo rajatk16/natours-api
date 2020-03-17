@@ -1,4 +1,3 @@
-const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
 process.on('uncaughtException', err => {
@@ -8,10 +7,6 @@ process.on('uncaughtException', err => {
 });
 
 const app = require('./app');
-
-dotenv.config({
-  path: './.env'
-});
 
 const DB_URI = process.env.DATABASE_URI.replace(
   '<PASSWORD>',
